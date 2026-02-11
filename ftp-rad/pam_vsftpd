@@ -1,0 +1,10 @@
+# Standard behaviour for ftpd(8).
+#auth   required        pam_listfile.so item=user sense=deny file=/etc/ftpusers onerr=succeed
+
+# Note: vsftpd handles anonymous logins on its own. Do not enable pam_ftp.so.
+
+# Standard pam includes
+auth required /lib/x86_64-linux-gnu/security/pam_radius_auth.so debug
+account required /lib/x86_64-linux-gnu/security/pam_radius_auth.so debug
+password required /lib/x86_64-linux-gnu/security/pam_radius_auth.so debug
+session required /lib/x86_64-linux-gnu/security/pam_radius_auth.so debug

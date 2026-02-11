@@ -1,0 +1,2 @@
+auth required pam_userdb.so db=/etc/vsftpd/vsftpd_login
+account required pam_userdb.so db=/etc/vsftpd/vsftpd_login

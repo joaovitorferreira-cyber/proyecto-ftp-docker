@@ -1,0 +1,29 @@
+services:
+  ftp-sys:
+    build:
+      context: ..
+      dockerfile: ftp.Dockerfile
+    container_name: ftp-granalmacen-sys
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    volumes:
+      # Sincronització d'usuaris locals i chroot
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/shadow:/etc/shadow:ro
+      - /etc/group:/etc/group:ro
+      - /home:/home:rw
+      - [cite_start]/srv/ftp:/srv/ftp:rw # Arrel per a mode anònim [cite: 32]
+      # Configuració segons la pràctica
+      - ./vsftpd.conf:/etc/vsftpd/vsftpd.conf:ro
+      - [cite_start]./vsftpd.chroot_list:/etc/vsftpd.chroot_list:ro # Llista excepcions [cite: 29, 74]
+      - ./pam_vsftpd:/etc/pam.d/vsftpd:ro
+      - ../certs/vsftpd.pem:/etc/ssl/private/vsftpd.pem:ro
+    networks:
+      ftp_net:
+        ipv4_address: 192.168.144.180
+    restart: always
+
+networks:
+  ftp_net:
+    external: true
